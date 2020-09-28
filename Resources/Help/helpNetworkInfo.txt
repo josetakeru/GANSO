@@ -1,0 +1,16 @@
+
+  Welcome to the GANSO Network option manual.
+
+  This option shows information on the network's underlying components:
+
+	1. Switches: Show information on the network's forwarding devices (e.g. id, type, hardware, etc.).
+	
+	2. Hosts: Show information on the network's hosts (e.g. id, mac, IP address, etc.).
+	
+	3. Links: Show information on the links that connect the network's switches (e.g. port, type, device, etc.).
+	
+	4. Topology: Show information on the network's topology (e.g. uptime, devices, links, etc.).
+
+	5. Cluster: Show information on the network's clusters (e.g. id, IP address, status, etc.).
+
+	6. Configuration: Show information on the network's configuration.

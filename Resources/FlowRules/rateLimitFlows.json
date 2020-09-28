@@ -1,0 +1,31 @@
+{
+  "priority": 50000,
+  "timeout": 0,
+  "isPermanent": true,
+  "deviceId": "",
+  "tableId": "",
+  "treatment": {
+    "instructions": [
+      {
+        "type": "METER",
+        "meterId": ""
+      },
+      {
+        "type": "OUTPUT",
+        "port": "CONTROLLER"
+      }
+    ]
+  },
+  "selector": {
+    "criteria": [
+      {
+        "type": "ETH_TYPE",
+        "ethType": "0x800"
+      },
+      {
+        "type": "IPV4_SRC",
+        "ip": ""
+      }
+    ]
+  }
+}

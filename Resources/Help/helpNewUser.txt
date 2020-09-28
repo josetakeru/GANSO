@@ -1,0 +1,10 @@
+
+  Welcome to the New GANSO user menu manual.
+
+  This options allows creating a new user.
+
+	1. GANSO information: Input the chosen GANSO username (must be unique) and password.
+
+	2. ONOS information: Input the IP address and port where the ONOS controller is running as well as the ONOS username and password.
+
+	All fields are mandatory.

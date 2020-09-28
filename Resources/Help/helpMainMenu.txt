@@ -1,0 +1,10 @@
+
+  Welcome to the GANSO main menu manual.
+
+  This page allows three options:
+
+	1. Network: Check information on the network components.
+	
+	2. Controller: Check information on the running ONOS controller.
+	
+	3. Network: Create, upload or check network slices.

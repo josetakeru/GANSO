@@ -1,0 +1,10 @@
+
+  Welcome to the GANSO Controller option manual.
+
+  This option shows information on the ONOS controller:
+
+	1. Flows: Show information on the OpenFlow flow entries currently installed in the network's forwarding devices (e.g. id, tableId, appId, etc.).
+
+	2. Intents: Show the intents currently installed in the network's forwarding devices.
+
+	3. Apps: Show information on the ONOS applications currently installed in the controller (e.g. name, id, version, etc.).

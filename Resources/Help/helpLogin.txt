@@ -1,0 +1,4 @@
+
+  Welcome to the GANSO Login page manual.
+
+  This page allows logging in or creating a new user.

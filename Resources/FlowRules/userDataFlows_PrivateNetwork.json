@@ -1,0 +1,27 @@
+{
+  "priority": 50000,
+  "timeout": 0,
+  "isPermanent": true,
+  "tableId": 0,
+  "deviceId": "",
+  "treatment": {
+    "instructions": [
+    ]
+  },
+  "selector": {
+    "criteria": [
+      {
+        "type": "ETH_TYPE",
+        "ethType": "0x800"
+      },
+      {
+        "type": "IPV4_DST",
+        "ip": ""
+      },
+      {
+        "type": "IPV4_SRC",
+        "ip": ""
+      }
+    ]
+  }
+}
