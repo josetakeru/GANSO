@@ -15,9 +15,10 @@ from xml.etree import ElementTree
 import xml.dom.minidom
 
 import xml.etree.ElementTree as ET
+from pathlib import Path
 
 # Global variables
-LARGE_FONT   =  ("Verdana", 12, 'bold')
+LARGE_FONT   = ("Verdana", 12, 'bold')
 BUTTON_FONT  = ("Arial", 10, 'bold')
 
 # ================================================================================================================================== #
@@ -218,8 +219,9 @@ def newGst(username, switches, onosUrl, onosUsr, onosPwd):
 # ================================================================================================================================== #
 
 def createGst(username, sliceName, industry, rateLimit, rateLimitHosts, userDataAccess, userDataHosts, exportGST, createNetSlice, switches, onosUrl, onosUsr, onosPwd):
-    
-    outputPath = "NetSlices\\" + sliceName + ".xml"  
+
+    netSlices_dir = Path("./NetSlices")
+
     rateLimitHosts = rateLimitHosts.replace(" ", "").split(',')
     userDataHosts = userDataHosts.replace(" ", "").split(',')
 
@@ -271,7 +273,9 @@ def createGst(username, sliceName, industry, rateLimit, rateLimitHosts, userData
         hostIp = ET.SubElement(userDataHostsXml,'host_ip')
         hostIp.text = str(userDataHosts[i])
 
-    with open(outputPath, 'wb') as f:
+    slice_file = sliceName + ".xml"
+
+    with open(netSlices_dir/slice_file, 'wb') as f:
         f.write(b'<?xml version="1.0" encoding="UTF-8"?>')
         tree.write(f, xml_declaration=False, encoding='utf-8')
 
@@ -280,8 +284,11 @@ def createGst(username, sliceName, industry, rateLimit, rateLimitHosts, userData
         outputPath = gansoMiscFunctions.outputFolder()
 
         if outputPath != '':
-            outputPath = outputPath + "\\GANSO_slice_"+sliceName + ".xml"
-            with open(outputPath, 'wb') as f:
+
+            slice_file = "GANSO_slice_"+ sliceName + ".xml"
+            output_file = Path(outputPath)
+
+            with open(output_file/slice_file, 'wb') as f:
                 f.write(b'<?xml version="1.0" encoding="UTF-8"?>')
                 tree.write(f, xml_declaration=False, encoding='utf-8')
             
@@ -289,8 +296,10 @@ def createGst(username, sliceName, industry, rateLimit, rateLimitHosts, userData
 
         createNetworkSlice(sliceName, switches, onosUrl, onosUsr, onosPwd, False)
 
+
+
     # If switches does not exist, include network slice in netSlices file
-    netSlicesFile = open("NetSlices\\netSlices.txt", "a+")
+    netSlicesFile = open(netSlices_dir/"netSlices.txt", "a+")
     netSlicesFile.write(sliceName+"\n")
     netSlicesFile.close()
 
@@ -315,8 +324,10 @@ def showSlices():
     scrollbarVer.config(command=info.yview)
     scrollbarHor.config(command=info.xview)
 
+    netSlices_dir = Path("./NetSlices")
+
     # Open file containing users
-    netSlicesFile = open('NetSlices\\netSlices.txt', 'r') 
+    netSlicesFile = open(netSlices_dir/"netSlices.txt", 'r') 
     count = 0
 
     # Read users
@@ -332,7 +343,8 @@ def showSlices():
             netSlicesFile.close()
             return False
         
-        file = open('NetSlices\\'+ netSliceName + '.xml', 'r')
+        netSliceXML = netSliceName + '.xml'
+        file = open(netSlices_dir/netSliceXML, 'r')
 
         dom = xml.dom.minidom.parse(file)
 
@@ -346,17 +358,18 @@ def showSlices():
 # ================================================================================================================================== #
 
 def createNetworkSlice(sliceName, switches, onosUrl, onosUsr, onosPwd, uploaded):
-    
+
     if uploaded:
+        netSlices_dir = Path("./NetSlices")
         gstPath = sliceName
         sliceName = sliceName.split("/")
         sliceName = sliceName[len(sliceName)-1]
-        netSlicesFile = open("NetSlices\\netSlices.txt", "a+")
+        netSlicesFile = open(netSlices_dir/"netSlices.txt", "a+")
         netSlicesFile.write(sliceName.replace('.xml',"")+"\n")
         netSlicesFile.close()
-        copyfile(gstPath, 'NetSlices\\'+sliceName)      
+        copyfile(gstPath, netSlices_dir/sliceName)      
     else:
-        gstPath = "NetSlices\\" + sliceName + ".xml"    
+        gstPath = Path("./NetSlices/" + sliceName + ".xml")    
     rateLimitHosts = []
     userDataHosts = []
     root = ET.parse(gstPath).getroot()
@@ -386,12 +399,14 @@ def createNetworkSlice(sliceName, switches, onosUrl, onosUsr, onosPwd, uploaded)
 # Function to create rate limit rule
 def rateLimitRule(rateLimit, priority, switchId, hosts, onosUrl, onosUsr, onosPwd):
 
+    flow_rules_dir = Path("./Resources/FlowRules")
+
     # FALTA: ASIGNAR A LOS VLAN ID
     for j in range(len(hosts)):    
         meterId = 0
         
         urlMeter = onosUrl+"meters/" + switchId
-        with open('Resources\\FlowRules\\rateLimitMeters.json') as json_file:
+        with open(flow_rules_dir/'rateLimitMeters.json') as json_file:
             meterJson = json.load(json_file)
 
         meterJson["deviceId"] = switchId
@@ -410,7 +425,9 @@ def rateLimitRule(rateLimit, priority, switchId, hosts, onosUrl, onosUsr, onosPw
 
         urlFlow = onosUrl+"flows/"+switchId+"?appId=*.core"
 
-        with open('Resources\\FlowRules\\rateLimitFlows.json') as json_file:
+        flow_rules_dir = Path("./Resources/FlowRules")
+
+        with open(flow_rules_dir/'rateLimitFlows.json') as json_file:
             flowJson = json.load(json_file)
 
         flowJson["priority"] = priority
@@ -430,10 +447,11 @@ def rateLimitRule(rateLimit, priority, switchId, hosts, onosUrl, onosUsr, onosPw
 def userDataAccessRule(userDataAccess, priority, switchId, hosts, onosUrl, onosUsr, onosPwd):
     
     urlFlow = onosUrl+"flows/"+switchId+"?appId=*.core"
+    flow_rules_dir = Path("./Resources/FlowRules")
 
     if userDataAccess == "1 - Private network":
         
-        with open('Resources\\FlowRules\\userDataFlows_PrivateNetwork.json') as json_file1:
+        with open(flow_rules_dir/'userDataFlows_PrivateNetwork.json') as json_file1:
             flowJson1 = json.load(json_file1)
 
         flowJson1["priority"] = 60000
@@ -442,7 +460,7 @@ def userDataAccessRule(userDataAccess, priority, switchId, hosts, onosUrl, onosU
 #        flowJson1["treatment"]["instructions"]= [{"type":"OUTPUT", "port": "CONTROLLER"}]
         flowJson1["selector"]["criteria"][1]["ip"] = "10.0.0.0/16"
 
-        with open('Resources\\FlowRules\\userDataFlows_PrivateNetwork.json') as json_file2:
+        with open(flow_rules_dir/'userDataFlows_PrivateNetwork.json') as json_file2:
             flowJson2 = json.load(json_file2)
 
         flowJson2["priority"] = 55000
@@ -459,7 +477,7 @@ def userDataAccessRule(userDataAccess, priority, switchId, hosts, onosUrl, onosU
 
     elif userDataAccess == "2 - No traffic":
         
-        with open('Resources\\FlowRules\\userDataFlows_NoConnection.json') as json_file:
+        with open(flow_rules_dir/'userDataFlows_NoConnection.json') as json_file:
             flowJson = json.load(json_file)
 
         flowJson["deviceId"] = switchId
@@ -475,8 +493,10 @@ def userDataAccessRule(userDataAccess, priority, switchId, hosts, onosUrl, onosU
 # Checks if Network slice exists
 def netSliceExists(userName, netSliceName):
 
+    netSlices_dir = Path("./NetSlices")
+
     # Open file containing users
-    netSlicesFile = open('NetSlices\\netSlices.txt', 'r') 
+    netSlicesFile = open(netSlices_dir/"netSlices.txt", 'r') 
     count = 0
 
     # Read users

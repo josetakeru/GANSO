@@ -13,16 +13,19 @@ from xml.etree.ElementTree import Element
 from xml.etree import ElementTree
 
 import xml.etree.ElementTree as ET
+from pathlib import Path
 
 # Global variables
-LARGE_FONT   =  ("Verdana", 12, 'bold')
+LARGE_FONT   = ("Verdana", 12, 'bold')
 BUTTON_FONT  = ("Arial", 10, 'bold')
 
 # Validate user credentials
 def userValidator(userName, userPwd):
-    
+
+    users_dir = Path("./Users")
+
     # Open file containing users
-    userFile = open('.\\Users\\users.txt', 'r') 
+    userFile = open(users_dir/"users.txt", 'r') 
     count = 0
     
     # Read users and passwords
@@ -50,8 +53,10 @@ def userValidator(userName, userPwd):
 # Checks if user exists
 def userExists(userName):
 
+    users_dir = Path("./Users")
+
     # Open file containing users
-    userFile = open('.\\Users\\users.txt', 'r') 
+    userFile = open(users_dir/"users.txt", 'r')
     count = 0
 
     # Read users
@@ -101,16 +106,18 @@ def createUserInfo(gansoUser, gansoPwd, ip1, ip2, ip3, ip4, port, onosUser, onos
             # Successful connection
             if "\"devices\":" in request.text:
 
+                users_dir = Path("./Users")
+                user_path = Path("./Users/user_"+gansoUser)    
+
                 # If switches does not exist, include User in Users file
-                usersFile = open("Users\\users.txt", "a+")
+                usersFile = open(users_dir/"users.txt", "a+")
                 usersFile.write(gansoUser+"\n")
-                path = ".\\Users\\user_"+gansoUser
 
                 # Create User Information XML file
                 try:
-                    os.mkdir(path)
+                    os.mkdir(user_path)
                     
-                    pathUserInfo = path + "\\userInfo.xml"
+                    pathUserInfo = Path(user_path/"userInfo.xml")
 
                     root=Element('GANSO_user_information')
                     tree=ET.ElementTree(root)
@@ -163,7 +170,9 @@ def createUserInfo(gansoUser, gansoPwd, ip1, ip2, ip3, ip4, port, onosUser, onos
 # Retrieves user information from User Information file
 def getUserInfo(username):
 
-    root = ET.parse('.\\Users\\user_'+username+'\\userInfo.xml').getroot()
+    userInfo_path = Path("./Users/user_"+username+"/userInfo.xml")
+
+    root = ET.parse(userInfo_path).getroot()
 
     userInfo = [ 
         root.find('GANSO_username').text,
