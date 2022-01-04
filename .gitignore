@@ -1,2 +1,3 @@
-README.md
-requirements.txt
+__pycache__/
+*.pyc
+Users/*
