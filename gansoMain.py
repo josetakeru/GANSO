@@ -150,17 +150,17 @@ class PageLogin(tk.Frame):
 
                     controller.show_frame(PageMainMenu)
 
-                    ethType = ["0x8942", "0x806", "0x88cc", "0x800"]
+                    # ethType = ["0x8942", "0x806", "0x88cc", "0x800"]
 
-                    for i in range(len(SWITCHES)):
+                    # for i in range(len(SWITCHES)):
 
-                        for x in range(len(ethType)):
+                    #     for x in range(len(ethType)):
 
-                            with open('Resources\\flowNewTable.json') as json_file:
-                                jsonFile = json.load(json_file)
-                                jsonFile["deviceId"] = SWITCHES[i]
-                                jsonFile["selector"]["criteria"][0]["ethType"] = ethType[x]
-                                requests.post(ONOS_URL + "flows/" + SWITCHES[i], auth=(ONOS_USR, ONOS_PWD), json = jsonFile)
+                    #         with open('Resources\\flowNewTable.json') as json_file:
+                    #             jsonFile = json.load(json_file)
+                    #             jsonFile["deviceId"] = SWITCHES[i]
+                    #             jsonFile["selector"]["criteria"][0]["ethType"] = ethType[x]
+                    #             requests.post(ONOS_URL + "flows/" + SWITCHES[i], auth=(ONOS_USR, ONOS_PWD), json = jsonFile)
 
                 else:
                     tk.Label(self, text="Warning: Invalid user or password").grid(row=7, column=3,columnspan=8, sticky="w")
