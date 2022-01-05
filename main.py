@@ -1,6 +1,6 @@
-import gansoMiscFunctions
-import gansoNetworkFunctions
-import gansoUserFunctions
+import functions_show_help
+import functions_network
+import functions_users
 from io import BytesIO
 import json
 import re
@@ -32,7 +32,7 @@ class GansoApp(tk.Tk):
         # Load program GUI frame
         tk.Tk.__init__(self, *args, **kwargs)
 
-        images_folder = Path("./resources/Images")
+        images_folder = Path("./resources/images")
         
         tk.Tk.iconbitmap(self, "@images_folder/gansoIcon")
         tk.Tk.wm_title(self, "GANSO - GST And Network Slice Operator")
@@ -77,7 +77,7 @@ class PageStart(tk.Frame):
     def __init__(self, parent, controller):
         
         tk.Frame.__init__(self, parent)
-        images_folder = Path("./resources/Images")
+        images_folder = Path("./resources/images")
 
         # Main picture
         self.photo = tk.PhotoImage(file=images_folder/"gansoLogo.png")
@@ -98,7 +98,7 @@ class PageLogin(tk.Frame):
     def __init__(self, parent, controller):
         
         tk.Frame.__init__(self, parent)
-        images_folder = Path("./resources/Images")
+        images_folder = Path("./resources/images")
         # Page description
         pageTitle = tk.Label(self, text = "Login page", font = LARGE_FONT)
         pageTitle.grid(row=0, column=3, columnspan=9, sticky="w")
@@ -122,7 +122,7 @@ class PageLogin(tk.Frame):
         buttonNewUser.grid(row=4, column=6,sticky="w")
         
         # Action buttons
-        buttonHelp = ttk.Button(self, text="Help", command=lambda: gansoMiscFunctions.help("Login"))
+        buttonHelp = ttk.Button(self, text="Help", command=lambda: functions_show_help.help("Login"))
         buttonHelp.grid(row=7,column=0,sticky="s")
  
         # GUI formatting
@@ -139,8 +139,8 @@ class PageLogin(tk.Frame):
         # Go to main menu page if user and password are correct
         def login(user, password):
 
-            if gansoUserFunctions.userExists(user):
-                userInfo = gansoUserFunctions.getUserInfo(user)
+            if functions_users.userExists(user):
+                userInfo = functions_users.getUserInfo(user)
 
                 if password == userInfo[1]:
 
@@ -149,7 +149,7 @@ class PageLogin(tk.Frame):
                     ONOS_URL  = userInfo[2]
                     ONOS_USR  = userInfo[3]
                     ONOS_PWD  = userInfo[4]
-                    SWITCHES  = gansoNetworkFunctions.getSwitches(ONOS_URL, ONOS_USR, ONOS_PWD)
+                    SWITCHES  = functions_network.getSwitches(ONOS_URL, ONOS_USR, ONOS_PWD)
 
                     controller.show_frame(PageMainMenu)
 
@@ -224,7 +224,7 @@ class PageNewUser(tk.Frame):
         entryOnosPwd.grid(row=3, column=17,sticky="w",columnspan=5)
 
         # Action buttons
-        buttonHelp = ttk.Button(self, text="Help", command=lambda: gansoMiscFunctions.help("NewUser"))
+        buttonHelp = ttk.Button(self, text="Help", command=lambda: functions_show_help.help("NewUser"))
         buttonHelp.grid(row=8,column=0,sticky="se",columnspan=5)
         buttonBack = ttk.Button(self, text="<< Back", command=lambda: controller.show_frame(PageLogin))
         buttonBack.grid(row=8,column=14,sticky="w",columnspan=5)
@@ -252,15 +252,15 @@ class PageNewUser(tk.Frame):
             textLabel = tk.Label(self, text="  Trying to connect with ONOS, please wait")
             textLabel.grid(row=6, column=3,columnspan=15, sticky="w")
 
-            newUser = gansoUserFunctions.createUserInfo(gansoUser, gansoPwd, ip1, ip2, ip3, ip4, port, onosUser, onosPwd)
-            errorLabel = gansoUserFunctions.errorNewUser(newUser) 
+            newUser = functions_users.createUserInfo(gansoUser, gansoPwd, ip1, ip2, ip3, ip4, port, onosUser, onosPwd)
+            errorLabel = functions_users.errorNewUser(newUser) 
 
             textLabel.destroy()
             textLabel = tk.Label(self, text=errorLabel)
             textLabel.grid(row=6, column=3,columnspan=8, sticky="w")
 
             if newUser == 0:
-                userInfo = gansoUserFunctions.getUserInfo(gansoUser)
+                userInfo = functions_users.getUserInfo(gansoUser)
                 
                 global GANSO_USR, ONOS_URL, ONOS_USR, ONOS_PWD, SWITCHES
                 GANSO_USR = userInfo[0]
@@ -268,7 +268,7 @@ class PageNewUser(tk.Frame):
                 ONOS_USR  = userInfo[3]
                 ONOS_PWD  = userInfo[4]
 
-                SWITCHES   = gansoNetworkFunctions.getSwitches(ONOS_URL, ONOS_USR, ONOS_PWD)
+                SWITCHES   = functions_network.getSwitches(ONOS_URL, ONOS_USR, ONOS_PWD)
 
                 controller.show_frame(PageMainMenu)
 
@@ -280,7 +280,7 @@ class PageMainMenu(tk.Frame):
     def __init__(self, parent, controller):
 
         tk.Frame.__init__(self, parent)
-        images_folder = Path("./resources/Images")
+        images_folder = Path("./resources/images")
         
         # Page description
         pageTitle = tk.Label(self, text = "Main Menu", font = LARGE_FONT)
@@ -308,7 +308,7 @@ class PageMainMenu(tk.Frame):
         tk.Label(self, text="Network Slice", font='arial 10 bold').grid(row=3,column=5)
 
         # Action buttons
-        buttonHelp = ttk.Button(self, text="Help",width=9, command=lambda: gansoMiscFunctions.help("MainMenu"))
+        buttonHelp = ttk.Button(self, text="Help",width=9, command=lambda: functions_show_help.help("MainMenu"))
         buttonHelp.grid(row=6,column=1,sticky="s")
         buttonLogOut = ttk.Button(self, text="Logout",width=9, command=lambda: controller.show_frame(PageLogin))
         buttonLogOut.grid(row=6,column=5,sticky="s")
@@ -329,7 +329,7 @@ class PageNetInfo(tk.Frame):
     def __init__(self, parent, controller):
         
         tk.Frame.__init__(self, parent)
-        images_folder = Path("./resources/Images")
+        images_folder = Path("./resources/images")
 
         # Page description
         pageTitle = tk.Label(self, text = "    Network information", font = LARGE_FONT)
@@ -342,43 +342,43 @@ class PageNetInfo(tk.Frame):
         configInfoIcon = tk.PhotoImage(file=images_folder/"configInfoIcon.png")
 
         # Show device information
-        buttonSwitches = ttk.Button(self, image=switchInfoIcon, width=5, command=lambda: gansoNetworkFunctions.showNetInfo("devices", SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
+        buttonSwitches = ttk.Button(self, image=switchInfoIcon, width=5, command=lambda: functions_network.showNetInfo("devices", SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
         buttonSwitches.image = switchInfoIcon        
         buttonSwitches.grid(row=1, column=1)
         tk.Label(self, text="Switches", font='arial 10 bold').grid(row=2,column=1)
 
         # Show host information
-        buttonHosts = ttk.Button(self, image=hostInfoIcon, width=5, command=lambda: gansoNetworkFunctions.showNetInfo("hosts", SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
+        buttonHosts = ttk.Button(self, image=hostInfoIcon, width=5, command=lambda: functions_network.showNetInfo("hosts", SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
         buttonHosts.image = hostInfoIcon
         buttonHosts.grid(row=1,column=3)
         tk.Label(self, text="Hosts", font='arial 10 bold').grid(row=2,column=3)
 
         # Show link information
-        buttonLinks = ttk.Button(self, image=linkInfoIcon, width=5, command=lambda: gansoNetworkFunctions.showNetInfo("links", SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
+        buttonLinks = ttk.Button(self, image=linkInfoIcon, width=5, command=lambda: functions_network.showNetInfo("links", SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
         buttonLinks.image = linkInfoIcon
         buttonLinks.grid(row=1, column=5)
         tk.Label(self, text="Links", font='arial 10 bold').grid(row=2,column=5)
 
         # Show topology information
-        buttonTopo = ttk.Button(self, image=topoInfoIcon, width=5, command=lambda: gansoNetworkFunctions.showNetInfo("topology", SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
+        buttonTopo = ttk.Button(self, image=topoInfoIcon, width=5, command=lambda: functions_network.showNetInfo("topology", SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
         buttonTopo.image = topoInfoIcon        
         buttonTopo.grid(row=3, column=1)
         tk.Label(self, text="Topology", font='arial 10 bold').grid(row=4,column=1)
 
         # Show cluster information
-        buttonCluster = ttk.Button(self, image=clusterInfoIcon, width=5, command=lambda: gansoNetworkFunctions.showNetInfo("cluster", SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
+        buttonCluster = ttk.Button(self, image=clusterInfoIcon, width=5, command=lambda: functions_network.showNetInfo("cluster", SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
         buttonCluster.image = clusterInfoIcon
         buttonCluster.grid(row=3,column=3)
         tk.Label(self, text="Cluster", font='arial 10 bold').grid(row=4,column=3)
 
         # Show configuration information
-        buttonConfig = ttk.Button(self, image=configInfoIcon, width=5, command=lambda: gansoNetworkFunctions.showNetInfo("configuration", SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
+        buttonConfig = ttk.Button(self, image=configInfoIcon, width=5, command=lambda: functions_network.showNetInfo("configuration", SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
         buttonConfig.image = configInfoIcon
         buttonConfig.grid(row=3, column=5)
         tk.Label(self, text="Configuration", font='arial 10 bold').grid(row=4,column=5)
 
         # Action buttons
-        buttonHelp = ttk.Button(self, text="Help",width=9, command=lambda:gansoMiscFunctions.help("NetworkInfo"))
+        buttonHelp = ttk.Button(self, text="Help",width=9, command=lambda:functions_show_help.help("NetworkInfo"))
         buttonHelp.grid(row=7,column=1,sticky="s")
         buttonBack = ttk.Button(self, text="<< Back",width=9, command=lambda:controller.show_frame(PageMainMenu))
         buttonBack.grid(row=7,column=5,sticky="s")
@@ -405,16 +405,16 @@ class PageController(tk.Frame):
         
         tk.Label(self, text="",width=5).grid(row=1,column=0)
 
-        buttonHosts = ttk.Button(self, text="Flows", width=10, command=lambda: gansoNetworkFunctions.showControllerInfo("flows", entryId.get(), SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
+        buttonHosts = ttk.Button(self, text="Flows", width=10, command=lambda: functions_network.showControllerInfo("flows", entryId.get(), SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
         buttonHosts.grid(row=2,column=1, sticky="w")
 
-        buttonSwitches = ttk.Button(self, text="Intents", width=10, command=lambda: gansoNetworkFunctions.showControllerInfo("intents", entryId.get(), SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
+        buttonSwitches = ttk.Button(self, text="Intents", width=10, command=lambda: functions_network.showControllerInfo("intents", entryId.get(), SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
         buttonSwitches.grid(row=2,column=2, sticky="w")
    
-        buttonLinks= ttk.Button(self, text="Apps", width=10, command=lambda: gansoNetworkFunctions.showControllerInfo("applications", entryId.get(), SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
+        buttonLinks= ttk.Button(self, text="Apps", width=10, command=lambda: functions_network.showControllerInfo("applications", entryId.get(), SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
         buttonLinks.grid(row=2,column=3, sticky="w")
         
-        buttonHelp= ttk.Button(self, text="Help", width=10, command=lambda: gansoMiscFunctions.help("Controller"))
+        buttonHelp= ttk.Button(self, text="Help", width=10, command=lambda: functions_show_help.help("Controller"))
         buttonHelp.grid(row=6,column=1, sticky="sw")
 
         tk.Label(self, text="Element Id (empty for ALL): ").grid(row=1,column=5,sticky="w",columnspan=4)
@@ -446,7 +446,7 @@ class PageNetSlice(tk.Frame):
     def __init__(self, parent, controller):         
 
         tk.Frame.__init__(self, parent)
-        images_folder = Path("./resources/Images")
+        images_folder = Path("./resources/images")
 
         # Page description
         pageTitle = tk.Label(self, text = "Network slice", font = LARGE_FONT)
@@ -456,7 +456,7 @@ class PageNetSlice(tk.Frame):
         viewSlicesIcon = tk.PhotoImage(file=images_folder/"viewSlicesIcon.png")
 
         # Create GST
-        buttonNewGst = ttk.Button(self, image=newGstIcon, width=10, command=lambda: gansoNetworkFunctions.newGst(GANSO_USR, SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
+        buttonNewGst = ttk.Button(self, image=newGstIcon, width=10, command=lambda: functions_network.newGst(GANSO_USR, SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
         buttonNewGst.image = newGstIcon
         buttonNewGst.grid(row=2, column=1)
         tk.Label(self, text="New slice", font='arial 10 bold').grid(row=3,column=1)
@@ -468,13 +468,13 @@ class PageNetSlice(tk.Frame):
         tk.Label(self, text="Upload NEST", font='arial 10 bold').grid(row=3,column=3)
 
         # Show created slices
-        showSlices = ttk.Button(self, image=viewSlicesIcon, width=10, command=lambda: gansoNetworkFunctions.showSlices())
+        showSlices = ttk.Button(self, image=viewSlicesIcon, width=10, command=lambda: functions_network.showSlices())
         showSlices.image = viewSlicesIcon
         showSlices.grid(row=2, column=5)
         tk.Label(self, text="View slices", font='arial 10 bold').grid(row=3,column=5)
 
         # Action buttons
-        buttonHelp = ttk.Button(self, text="Help",width=9, command=lambda:gansoMiscFunctions.help("NetworkSlice"))
+        buttonHelp = ttk.Button(self, text="Help",width=9, command=lambda:functions_show_help.help("NetworkSlice"))
         buttonHelp.grid(row=6,column=1,sticky="s")
         buttonBack = ttk.Button(self, text="<< Back",width=9, command=lambda:controller.show_frame(PageMainMenu))
         buttonBack.grid(row=6,column=5,sticky="s")
@@ -492,7 +492,7 @@ class PageNetSlice(tk.Frame):
                 filetypes=(("xml files", "*.xml"),("json files", "*.json")))
 
             if self.filename != '':
-                gansoNetworkFunctions.createNetworkSlice(self.filename, switches, onosUrl, onosUsr, onosPwd, True)
+                functions_network.createNetworkSlice(self.filename, switches, onosUrl, onosUsr, onosPwd, True)
 
 
 app = GansoApp()

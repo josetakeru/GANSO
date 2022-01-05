@@ -1,4 +1,4 @@
-import gansoMiscFunctions
+import functions_show_help
 
 import json
 import re
@@ -170,7 +170,7 @@ def createUserInfo(gansoUser, gansoPwd, ip1, ip2, ip3, ip4, port, onosUser, onos
 # Retrieves user information from User Information file
 def getUserInfo(username):
 
-    userInfo_path = Path("./resources/usersuser_"+username+"/userInfo.xml")
+    userInfo_path = Path("./resources/users/user_"+username+"/userInfo.xml")
 
     root = ET.parse(userInfo_path).getroot()
 

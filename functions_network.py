@@ -1,4 +1,4 @@
-import gansoMiscFunctions
+import functions_show_help
 
 import json
 import re
@@ -281,7 +281,7 @@ def createGst(username, sliceName, industry, rateLimit, rateLimitHosts, userData
 
     if exportGST == 1:
         
-        outputPath = gansoMiscFunctions.outputFolder()
+        outputPath = functions_show_help.outputFolder()
 
         if outputPath != '':
 
