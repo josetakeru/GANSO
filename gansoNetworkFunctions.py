@@ -220,7 +220,7 @@ def newGst(username, switches, onosUrl, onosUsr, onosPwd):
 
 def createGst(username, sliceName, industry, rateLimit, rateLimitHosts, userDataAccess, userDataHosts, exportGST, createNetSlice, switches, onosUrl, onosUsr, onosPwd):
 
-    netSlices_dir = Path("./NetSlices")
+    netSlices_dir = Path("./resources/network_slices")
 
     rateLimitHosts = rateLimitHosts.replace(" ", "").split(',')
     userDataHosts = userDataHosts.replace(" ", "").split(',')
@@ -324,7 +324,7 @@ def showSlices():
     scrollbarVer.config(command=info.yview)
     scrollbarHor.config(command=info.xview)
 
-    netSlices_dir = Path("./NetSlices")
+    netSlices_dir = Path("./resources/network_slices")
 
     # Open file containing users
     netSlicesFile = open(netSlices_dir/"netSlices.txt", 'r') 
@@ -360,7 +360,7 @@ def showSlices():
 def createNetworkSlice(sliceName, switches, onosUrl, onosUsr, onosPwd, uploaded):
 
     if uploaded:
-        netSlices_dir = Path("./NetSlices")
+        netSlices_dir = Path("./resources/network_slices")
         gstPath = sliceName
         sliceName = sliceName.split("/")
         sliceName = sliceName[len(sliceName)-1]
@@ -369,7 +369,7 @@ def createNetworkSlice(sliceName, switches, onosUrl, onosUsr, onosPwd, uploaded)
         netSlicesFile.close()
         copyfile(gstPath, netSlices_dir/sliceName)      
     else:
-        gstPath = Path("./NetSlices/" + sliceName + ".xml")    
+        gstPath = Path("./resources/network_slices/" + sliceName + ".xml")    
     rateLimitHosts = []
     userDataHosts = []
     root = ET.parse(gstPath).getroot()
@@ -399,7 +399,7 @@ def createNetworkSlice(sliceName, switches, onosUrl, onosUsr, onosPwd, uploaded)
 # Function to create rate limit rule
 def rateLimitRule(rateLimit, priority, switchId, hosts, onosUrl, onosUsr, onosPwd):
 
-    flow_rules_dir = Path("./Resources/FlowRules")
+    flow_rules_dir = Path("./resources/flow_rules")
 
     # FALTA: ASIGNAR A LOS VLAN ID
     for j in range(len(hosts)):    
@@ -425,7 +425,7 @@ def rateLimitRule(rateLimit, priority, switchId, hosts, onosUrl, onosUsr, onosPw
 
         urlFlow = onosUrl+"flows/"+switchId+"?appId=*.core"
 
-        flow_rules_dir = Path("./Resources/FlowRules")
+        flow_rules_dir = Path("./resources/flow_rules")
 
         with open(flow_rules_dir/'rateLimitFlows.json') as json_file:
             flowJson = json.load(json_file)
@@ -447,7 +447,7 @@ def rateLimitRule(rateLimit, priority, switchId, hosts, onosUrl, onosUsr, onosPw
 def userDataAccessRule(userDataAccess, priority, switchId, hosts, onosUrl, onosUsr, onosPwd):
     
     urlFlow = onosUrl+"flows/"+switchId+"?appId=*.core"
-    flow_rules_dir = Path("./Resources/FlowRules")
+    flow_rules_dir = Path("./resources/flow_rules")
 
     if userDataAccess == "1 - Private network":
         
@@ -493,7 +493,7 @@ def userDataAccessRule(userDataAccess, priority, switchId, hosts, onosUrl, onosU
 # Checks if Network slice exists
 def netSliceExists(userName, netSliceName):
 
-    netSlices_dir = Path("./NetSlices")
+    netSlices_dir = Path("./resources/network_slices")
 
     # Open file containing users
     netSlicesFile = open(netSlices_dir/"netSlices.txt", 'r') 

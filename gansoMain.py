@@ -32,7 +32,7 @@ class GansoApp(tk.Tk):
         # Load program GUI frame
         tk.Tk.__init__(self, *args, **kwargs)
 
-        images_folder = Path("./Resources/Images")
+        images_folder = Path("./resources/Images")
         
         tk.Tk.iconbitmap(self, "@images_folder/gansoIcon")
         tk.Tk.wm_title(self, "GANSO - GST And Network Slice Operator")
@@ -77,7 +77,7 @@ class PageStart(tk.Frame):
     def __init__(self, parent, controller):
         
         tk.Frame.__init__(self, parent)
-        images_folder = Path("./Resources/Images")
+        images_folder = Path("./resources/Images")
 
         # Main picture
         self.photo = tk.PhotoImage(file=images_folder/"gansoLogo.png")
@@ -98,7 +98,7 @@ class PageLogin(tk.Frame):
     def __init__(self, parent, controller):
         
         tk.Frame.__init__(self, parent)
-        images_folder = Path("./Resources/Images")
+        images_folder = Path("./resources/Images")
         # Page description
         pageTitle = tk.Label(self, text = "Login page", font = LARGE_FONT)
         pageTitle.grid(row=0, column=3, columnspan=9, sticky="w")
@@ -159,7 +159,7 @@ class PageLogin(tk.Frame):
 
                     #     for x in range(len(ethType)):
 
-                    #         with open('Resources/flowNewTable.json') as json_file:
+                    #         with open('resources/flowNewTable.json') as json_file:
                     #             jsonFile = json.load(json_file)
                     #             jsonFile["deviceId"] = SWITCHES[i]
                     #             jsonFile["selector"]["criteria"][0]["ethType"] = ethType[x]
@@ -280,7 +280,7 @@ class PageMainMenu(tk.Frame):
     def __init__(self, parent, controller):
 
         tk.Frame.__init__(self, parent)
-        images_folder = Path("./Resources/Images")
+        images_folder = Path("./resources/Images")
         
         # Page description
         pageTitle = tk.Label(self, text = "Main Menu", font = LARGE_FONT)
@@ -329,7 +329,7 @@ class PageNetInfo(tk.Frame):
     def __init__(self, parent, controller):
         
         tk.Frame.__init__(self, parent)
-        images_folder = Path("./Resources/Images")
+        images_folder = Path("./resources/Images")
 
         # Page description
         pageTitle = tk.Label(self, text = "    Network information", font = LARGE_FONT)
@@ -446,7 +446,7 @@ class PageNetSlice(tk.Frame):
     def __init__(self, parent, controller):         
 
         tk.Frame.__init__(self, parent)
-        images_folder = Path("./Resources/Images")
+        images_folder = Path("./resources/Images")
 
         # Page description
         pageTitle = tk.Label(self, text = "Network slice", font = LARGE_FONT)

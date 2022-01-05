@@ -1,4 +1,4 @@
 __pycache__/
 *.pyc
 Users/*
-NetSlices/*
+resources/network_slices/*

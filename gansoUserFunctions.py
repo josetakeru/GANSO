@@ -22,7 +22,7 @@ BUTTON_FONT  = ("Arial", 10, 'bold')
 # Validate user credentials
 def userValidator(userName, userPwd):
 
-    users_dir = Path("./Users")
+    users_dir = Path("./users")
 
     # Open file containing users
     userFile = open(users_dir/"users.txt", 'r') 
@@ -53,7 +53,7 @@ def userValidator(userName, userPwd):
 # Checks if user exists
 def userExists(userName):
 
-    users_dir = Path("./Users")
+    users_dir = Path("./users")
 
     # Open file containing users
     userFile = open(users_dir/"users.txt", 'r')
@@ -106,8 +106,8 @@ def createUserInfo(gansoUser, gansoPwd, ip1, ip2, ip3, ip4, port, onosUser, onos
             # Successful connection
             if "\"devices\":" in request.text:
 
-                users_dir = Path("./Users")
-                user_path = Path("./Users/user_"+gansoUser)    
+                users_dir = Path("./users")
+                user_path = Path("./users/user_"+gansoUser)    
 
                 # If switches does not exist, include User in Users file
                 usersFile = open(users_dir/"users.txt", "a+")
@@ -170,7 +170,7 @@ def createUserInfo(gansoUser, gansoPwd, ip1, ip2, ip3, ip4, port, onosUser, onos
 # Retrieves user information from User Information file
 def getUserInfo(username):
 
-    userInfo_path = Path("./Users/user_"+username+"/userInfo.xml")
+    userInfo_path = Path("./users/user_"+username+"/userInfo.xml")
 
     root = ET.parse(userInfo_path).getroot()
 
