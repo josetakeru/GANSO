@@ -34,7 +34,6 @@ class GansoApp(tk.Tk):
 
         images_folder = Path("./resources/images")
         
-        tk.Tk.iconbitmap(self, "@images_folder/gansoIcon")
         tk.Tk.wm_title(self, "GANSO - GST And Network Slice Operator")
         tk.Tk.resizable(self,width=False, height=False)
 
