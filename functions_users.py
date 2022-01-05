@@ -1,4 +1,4 @@
-import functions_show_help
+import functions_miscellaneous
 
 import json
 import re

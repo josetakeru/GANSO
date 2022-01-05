@@ -1,4 +1,4 @@
-import functions_show_help
+import functions_miscellaneous
 import functions_network
 import functions_users
 from io import BytesIO
@@ -122,7 +122,7 @@ class PageLogin(tk.Frame):
         buttonNewUser.grid(row=4, column=6,sticky="w")
         
         # Action buttons
-        buttonHelp = ttk.Button(self, text="Help", command=lambda: functions_show_help.help("Login"))
+        buttonHelp = ttk.Button(self, text="Help", command=lambda: functions_miscellaneous.help("Login"))
         buttonHelp.grid(row=7,column=0,sticky="s")
  
         # GUI formatting
@@ -224,7 +224,7 @@ class PageNewUser(tk.Frame):
         entryOnosPwd.grid(row=3, column=17,sticky="w",columnspan=5)
 
         # Action buttons
-        buttonHelp = ttk.Button(self, text="Help", command=lambda: functions_show_help.help("NewUser"))
+        buttonHelp = ttk.Button(self, text="Help", command=lambda: functions_miscellaneous.help("NewUser"))
         buttonHelp.grid(row=8,column=0,sticky="se",columnspan=5)
         buttonBack = ttk.Button(self, text="<< Back", command=lambda: controller.show_frame(PageLogin))
         buttonBack.grid(row=8,column=14,sticky="w",columnspan=5)
@@ -308,7 +308,7 @@ class PageMainMenu(tk.Frame):
         tk.Label(self, text="Network Slice", font='arial 10 bold').grid(row=3,column=5)
 
         # Action buttons
-        buttonHelp = ttk.Button(self, text="Help",width=9, command=lambda: functions_show_help.help("MainMenu"))
+        buttonHelp = ttk.Button(self, text="Help",width=9, command=lambda: functions_miscellaneous.help("MainMenu"))
         buttonHelp.grid(row=6,column=1,sticky="s")
         buttonLogOut = ttk.Button(self, text="Logout",width=9, command=lambda: controller.show_frame(PageLogin))
         buttonLogOut.grid(row=6,column=5,sticky="s")
@@ -378,7 +378,7 @@ class PageNetInfo(tk.Frame):
         tk.Label(self, text="Configuration", font='arial 10 bold').grid(row=4,column=5)
 
         # Action buttons
-        buttonHelp = ttk.Button(self, text="Help",width=9, command=lambda:functions_show_help.help("NetworkInfo"))
+        buttonHelp = ttk.Button(self, text="Help",width=9, command=lambda:functions_miscellaneous.help("NetworkInfo"))
         buttonHelp.grid(row=7,column=1,sticky="s")
         buttonBack = ttk.Button(self, text="<< Back",width=9, command=lambda:controller.show_frame(PageMainMenu))
         buttonBack.grid(row=7,column=5,sticky="s")
@@ -414,7 +414,7 @@ class PageController(tk.Frame):
         buttonLinks= ttk.Button(self, text="Apps", width=10, command=lambda: functions_network.showControllerInfo("applications", entryId.get(), SWITCHES, ONOS_URL, ONOS_USR, ONOS_PWD))
         buttonLinks.grid(row=2,column=3, sticky="w")
         
-        buttonHelp= ttk.Button(self, text="Help", width=10, command=lambda: functions_show_help.help("Controller"))
+        buttonHelp= ttk.Button(self, text="Help", width=10, command=lambda: functions_miscellaneous.help("Controller"))
         buttonHelp.grid(row=6,column=1, sticky="sw")
 
         tk.Label(self, text="Element Id (empty for ALL): ").grid(row=1,column=5,sticky="w",columnspan=4)
@@ -474,7 +474,7 @@ class PageNetSlice(tk.Frame):
         tk.Label(self, text="View slices", font='arial 10 bold').grid(row=3,column=5)
 
         # Action buttons
-        buttonHelp = ttk.Button(self, text="Help",width=9, command=lambda:functions_show_help.help("NetworkSlice"))
+        buttonHelp = ttk.Button(self, text="Help",width=9, command=lambda:functions_miscellaneous.help("NetworkSlice"))
         buttonHelp.grid(row=6,column=1,sticky="s")
         buttonBack = ttk.Button(self, text="<< Back",width=9, command=lambda:controller.show_frame(PageMainMenu))
         buttonBack.grid(row=6,column=5,sticky="s")
