@@ -1,4 +1,5 @@
 __pycache__/
 *.pyc
-Users/*
 resources/network_slices/*
+resources/users/*
+resources/users/users.txt
