@@ -299,7 +299,7 @@ def createGst(username, sliceName, industry, rateLimit, rateLimitHosts, userData
 
 
     # If switches does not exist, include network slice in netSlices file
-    netSlicesFile = open(netSlices_dir/"netSlices.txt", "a+")
+    netSlicesFile = open(netSlices_dir/"network_slices.txt", "a+")
     netSlicesFile.write(sliceName+"\n")
     netSlicesFile.close()
 
@@ -327,7 +327,7 @@ def showSlices():
     netSlices_dir = Path("./resources/network_slices")
 
     # Open file containing users
-    netSlicesFile = open(netSlices_dir/"netSlices.txt", 'r') 
+    netSlicesFile = open(netSlices_dir/"network_slices.txt", 'r') 
     count = 0
 
     # Read users
@@ -364,7 +364,7 @@ def createNetworkSlice(sliceName, switches, onosUrl, onosUsr, onosPwd, uploaded)
         gstPath = sliceName
         sliceName = sliceName.split("/")
         sliceName = sliceName[len(sliceName)-1]
-        netSlicesFile = open(netSlices_dir/"netSlices.txt", "a+")
+        netSlicesFile = open(netSlices_dir/"network_slices.txt", "a+")
         netSlicesFile.write(sliceName.replace('.xml',"")+"\n")
         netSlicesFile.close()
         copyfile(gstPath, netSlices_dir/sliceName)      
@@ -496,7 +496,7 @@ def netSliceExists(userName, netSliceName):
     netSlices_dir = Path("./resources/network_slices")
 
     # Open file containing users
-    netSlicesFile = open(netSlices_dir/"netSlices.txt", 'r') 
+    netSlicesFile = open(netSlices_dir/"network_slices.txt", 'r') 
     count = 0
 
     # Read users
